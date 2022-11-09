@@ -4,19 +4,26 @@ def assimetria(media, mediana, desvio_padrao):
     coef = (3 * (media - mediana)) / desvio_padrao
 
     if coef > -1 and coef < 1:
-        return "Simetrica"
+        return [coef, "Simetrica"]
     elif coef < -1:
-        return "Negativo (ou a esquerda)"
-    else:
-        return "Positivo (ou a direita)"
+        return [coef, "Negativo (ou a esquerda)"]
+    elif coef > 1:
+        return [coef, "Positivo (ou a direita)"]
 
-def kurtosis(media, desvio_padrao, arr):
-    size = np.size(arr)
-    #create an empty list to store the values of the array
-    kurtosis = []
-    #loop through the array
-    for i in arr:
-        #calculate the kurtosis for each value in the array
-        kurtosis.append(((i - media) / desvio_padrao) ** 4)
-    #return the sum of the kurtosis list divided by the size of the array
-    return sum(kurtosis) / size
+def kurtosis(arr):
+    #sintaxe
+    #np.percentile(arr, 90) percentil 90 do arr
+    p90 = np.percentile(arr, 90)
+    p10 = np.percentile(arr, 10)
+    q1 = np.percentile(arr, 25)
+    q3 = np.percentile(arr, 75)
+
+    curtose = round((q3 - q1)/ (2*(p90 - p10)), 3)
+    if curtose < 0.263:
+        return [curtose, "Leptocurtica"]
+    if curtose == 0.263:
+        return [curtose, "Mesocurtica"]
+    else:
+        return [curtose, "Platicurtica"]
+
+v = np.array([])
