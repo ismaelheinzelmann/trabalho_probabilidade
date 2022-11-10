@@ -6,7 +6,8 @@ from statistics import mode
 from stats import kurtosis, assimetria
 
 
-segmentos = {"1": "Auto-serviço", "2": "Mercado Frio", "3": "Mercado Tradicional"}
+segmentos = {"1": "Auto-serviço",
+             "2": "Mercado Frio", "3": "Mercado Tradicional"}
 canais = {
     "1": "Hipermercados com no mínimo 10 caixas",
     "2": "Depósito de bebidas multimarcas",
@@ -58,7 +59,8 @@ for i in range(1, 4):
                 "marca": marca.title(),
                 "n_amostral": marca_segmento_data.size,
                 "media": media,  # média aritmetica
-                "mediana": mediana,  # valor que divide a amostra ao meio (valor do meio se for impar, media dos valores centrais se for par )
+                # valor que divide a amostra ao meio (valor do meio se for impar, media dos valores centrais se for par )
+                "mediana": mediana,
                 "moda": mode(
                     marca_segmento_data
                 ),  # valores que mais aparecem (pode ser 1 ou mais, caso aparecam a mesma quantidade de vezes)
@@ -75,22 +77,29 @@ for i in range(1, 4):
             }
         )
 
+    #initial plot
+    fig = plt.figure(figsize=(10, 7))
+    plt.title(
+        f"Histograma e Boxplot{', '.join([x.title() for x in marcas])} | {canais[str(i)]}")
+    plt.axis('off')
+    #end initial plot
+
+    #histogram plot
+    fig.add_subplot(1, 2, 1)
     for info in marcas_data:
         plt.hist(
             info["data"], bins="sturges", alpha=0.7, label=f"{info['marca'].title()}"
         )
-
-    plt.title(
-        f"Histograma {', '.join([x.title() for x in marcas])} | {segmentos[str(i)]}"
-    )
     plt.legend(loc="upper right")
-    plt.savefig(f"segmento_{i}_hist.png")
-    plt.clf()
+    #end histogram plot
 
+    #boxplot plot
+    fig.add_subplot(1, 2, 2)
     arrs = [x["data"] for x in marcas_data]
-    plt.title(f"BoxPlot {', '.join([x.title() for x in marcas])} | {segmentos[str(i)]}")
     plt.boxplot(arrs, showmeans=True, labels=[x.title() for x in marcas])
-    plt.savefig(f"segment_{i}_boxplot.png")
+    #end boxplot plot
+    
+    plt.savefig(f"segmento_{i}.png")
     plt.clf()
 
 # Por canal
@@ -116,7 +125,8 @@ for i in range(1, 9):
                 "marca": marca.title(),
                 "n_amostral": marca_canal_data.size,
                 "media": media,  # média aritmetica
-                "mediana": mediana,  # valor que divide a amostra ao meio (valor do meio se for impar, media dos valores centrais se for par )
+                # valor que divide a amostra ao meio (valor do meio se for impar, media dos valores centrais se for par )
+                "mediana": mediana,
                 "moda": mode(
                     marca_canal_data
                 ),  # valores que mais aparecem (pode ser 1 ou mais, caso aparecam a mesma quantidade de vezes)
@@ -133,20 +143,21 @@ for i in range(1, 9):
             }
         )
 
+    fig = plt.figure(figsize=(10, 7))
+    plt.title(
+        f"Histograma e Boxplot{', '.join([x.title() for x in marcas])} | {canais[str(i)]}")
+    plt.axis('off')
+
+    fig.add_subplot(1, 2, 1)
     for info in marcas_data:
         plt.hist(
             info["data"], bins="sturges", alpha=0.7, label=f"{info['marca'].title()}"
         )
-
-    plt.title(f"Histograma {', '.join([x.title() for x in marcas])} | {canais[str(i)]}")
     plt.legend(loc="upper right")
-    plt.savefig(f"canal_{i}_hist.png")
-    plt.clf()
-
-    plt.title(f"BoxPlot {', '.join([x.title() for x in marcas])} | {canais[str(i)]}")
+    fig.add_subplot(1, 2, 2)
     arrs = [x["data"] for x in marcas_data]
     plt.boxplot(arrs, showmeans=True, labels=[x.title() for x in marcas])
-    plt.savefig(f"canal_{i}_boxplot.png")
+    plt.savefig(f"canal_{i}.png")
     plt.clf()
 
 
