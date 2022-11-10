@@ -80,7 +80,7 @@ for i in range(1, 4):
     #initial plot
     fig = plt.figure(figsize=(10, 7))
     plt.title(
-        f"Histograma e Boxplot{', '.join([x.title() for x in marcas])} | {canais[str(i)]}")
+        f"Histograma e Boxplot{', '.join([x.title() for x in marcas])} | {segmentos[str(i)]}")
     plt.axis('off')
     #end initial plot
 
